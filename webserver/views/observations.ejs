@@ -1,7 +1,7 @@
 <div>
-    <a href="/weather/new">new observation</a>
+    <a href="/weather/create">new observation</a>
     <!-- output list -->
     <% obs.forEach(ob => { %>
-    <p><%= ob.condition %> <a href="/weather/edit?id=<%= ob.id %>">edit</a> <a href="/weather/delete?id=<%= ob.id %>">delete</a> </p>
+    <p><%= ob.id %>: <%= ob.condition %> <a href="/weather/update?id=<%= ob.id %>">edit</a> <a href="/weather/delete?id=<%= ob.id %>">delete</a> </p>
     <% }) %>
 </div>

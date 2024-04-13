@@ -21,29 +21,37 @@
     }
 </style>
 
-
-
 <form method="post" action="">
+
     <label for="id">id:</label>
-    <input type="text" name="id" id="id" value="<%=Date(obs.id) %>" disabled>
+    <input type="text" name="id" id="id" value="<%=obs.id %>" readonly>
     <br />
     <label for="condition">condition</label>
     <input type="text" name="condition" id="condition" value="<%= obs.condition %>">
     <br />
     <label>action</label>
-    <% if (action == 'edit') { %>
+
+    <!-- <% if (action == 'update') { %>
         <input type="submit" value="update">
     <% } else { %>
         <input type="submit" value="create">
-    <% } %>
+    <% } %> -->
+
+    <input type="submit" value="<%= action %>">
+
 </form>
 
-<% if (action == 'edit') { %>
+<% if (action == 'update') { %>
     <div class="info">
-        <p>
-            Populating this form is the the visual part of Read in C<em>R</em>UD
-        </p>
+        Denne forudfyldte formular er starten på Read i C<em>R</em>UD, 
+        når du trykker på update, udføres Read i CR<em>U</em>D
     </div>    
-<% } else { %>
-    
+<% } else if (action == 'create') { %>
+    <div class="info">
+        Denne tomme formular er staten på Create i <em>C</em>RUD
+    </div> 
+<% } else if (action == 'delete') { %>
+    <div class="info">
+        Denne forudfyldte formular er staten på Delete i CRU<em>D</em>
+    </div> 
 <% } %>
