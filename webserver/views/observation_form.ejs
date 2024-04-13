@@ -1,0 +1,49 @@
+<style>
+    label {
+        width: 100px; 
+        display: inline-block;
+    }
+
+    input[type=text] {
+        width: 500px;
+    }
+
+    .info {
+        border:1px solid black;
+        background-color: aquamarine;
+        padding: 1em;
+    }
+
+    form {
+        border:1px solid black;
+        background-color: cornsilk;
+        padding: 1em;
+    }
+</style>
+
+
+
+<form method="post" action="">
+    <label for="id">id:</label>
+    <input type="text" name="id" id="id" value="<%=Date(obs.id) %>" disabled>
+    <br />
+    <label for="condition">condition</label>
+    <input type="text" name="condition" id="condition" value="<%= obs.condition %>">
+    <br />
+    <label>action</label>
+    <% if (action == 'edit') { %>
+        <input type="submit" value="update">
+    <% } else { %>
+        <input type="submit" value="create">
+    <% } %>
+</form>
+
+<% if (action == 'edit') { %>
+    <div class="info">
+        <p>
+            Populating this form is the the visual part of Read in C<em>R</em>UD
+        </p>
+    </div>    
+<% } else { %>
+    
+<% } %>
