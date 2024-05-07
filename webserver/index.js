@@ -1,5 +1,24 @@
 // Borrowed from https://github.com/mde/ejs/wiki/Using-EJS-with-Express
 
+const { Client } = require('pg');
+
+const client = new Client({
+	user: 'postgres',
+	password: '12345678',
+	host: 'localhost',
+	port: '5432',
+	database: 'postgres',
+});
+
+client
+	.connect()
+	.then(() => {
+		console.log('Connected to PostgreSQL database');
+	})
+	.catch((err) => {
+		console.error('Error connecting to PostgreSQL database', err);
+});
+
 let express = require('express');
 let app = express();
 
@@ -21,7 +40,16 @@ let observations = [{id: Date.now().valueOf(), condition: "fair"},
 
 
 app.get('/weather', (req, res) => {
-    res.render('observations', {obs: observations})
+    // let result;
+    client.query('SELECT * FROM weather_observations', (err, result) => {
+        if (err) {
+            console.error('Error executing query', err);
+        } else {
+            console.log('Query result:', result.rows);
+            res.render('observations', {obs: result.rows})
+        }
+    });
+    
 })
 
 app.get('/weather/update', (req, res) => {
@@ -77,7 +105,7 @@ app.post('/weather/create', (req, res) => {
     const condition = req.body.condition
     const obs = {id: id, condition: condition}
     observations.push(obs)
-
+	
     console.log("observations': ", observations)
 
     res.redirect('/weather')
@@ -99,3 +127,12 @@ app.post('/weather/delete', (req, res) => {
 
 
 app.listen(8080, () => console.log('Example app listening on port 8080!'));
+
+// client
+// 	.end()
+// 	.then(() => {
+// 		console.log('Connection to PostgreSQL closed');
+// 	})
+// 	.catch((err) => {
+// 		console.error('Error closing connection', err);
+// 	});
