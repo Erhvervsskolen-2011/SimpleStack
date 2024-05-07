@@ -56,9 +56,21 @@ app.get('/weather/update', (req, res) => {
 
     const id = req.query.id
     // Hent et element i listen efter id. Svarer til SELECT i SQL
-    const obs = observations.find( o => o.id == id ) 
+    // const obs = observations.find( o => o.id == id ) 
     const action = 'update'
-    res.render('observation_form', {obs: obs, action: action})
+    
+    const sql = "SELECT * FROM weather_observations WHERE id = $1"
+    const values = [id] 
+    client.query(sql, values, (err, result) => {
+    // client.query('SELECT * FROM weather_observations WHERE id = ', (err, result) => {
+        if (err) {
+            console.error('Error executing query', err);
+        } else {
+            console.log('Query result:', result.rows);
+            res.render('observation_form', {obs: result.rows, action: action})
+        }
+    });
+    // res.render('observation_form', {obs: obs, action: action})
 })
 
 app.get('/weather/create', (req, res) => {
@@ -84,15 +96,25 @@ app.post('/weather/update', (req, res) => {
     console.log('req.body: ', req.body)
     // res.json(req.body)
     
-    console.log("observations: ", observations)
+    // console.log("observations: ", observations)
 
     const id = req.body.id
     const condition = req.body.condition
+    
+    const sql =
+        'UPDATE weather_observations SET condition = $2 WHERE id = $1 RETURNING *';
+    const values = [id, condition];
 
-    const obs = observations.find( o => o.id == id )
-    obs.condition = condition
+    client.query(sql, values, (err, result) => {
+        if (err) {
+            console.error('Error inserting data', err);
+        } else {
+            console.log('Data inserted successfully');
+        }
+    });
+	
 
-    console.log("observations': ", observations)
+    // console.log("observations': ", observations)
 
     res.redirect('/weather')
 })
@@ -102,11 +124,23 @@ app.post('/weather/create', (req, res) => {
     console.log("observations: ", observations)
 
     const id = Date.now().valueOf()
-    const condition = req.body.condition
-    const obs = {id: id, condition: condition}
-    observations.push(obs)
+    // const condition = req.body.condition
+    // const obs = {id: id, condition: condition}
+    // observations.push(obs)
+
+    const sql =
+        'INSERT INTO weather_observations(id, condition) VALUES ($1, $2) RETURNING *    ';
+    const values = [id, condition];
+
+    client.query(sql, values, (err, result) => {
+        if (err) {
+            console.error('Error inserting data', err);
+        } else {
+            console.log('Data inserted successfully');
+        }
+    });
 	
-    console.log("observations': ", observations)
+    // console.log("observations': ", observations)
 
     res.redirect('/weather')
 })
