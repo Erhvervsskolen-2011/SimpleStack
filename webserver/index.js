@@ -41,7 +41,7 @@ let observations = [{id: Date.now().valueOf(), condition: "fair"},
 
 app.get('/weather', (req, res) => {
     // let result;
-    client.query('SELECT * FROM weather_observations', (err, result) => {
+    client.query('SELECT * FROM weather_observations ORDER BY id DESC', (err, result) => {
         if (err) {
             console.error('Error executing query', err);
         } else {
@@ -62,15 +62,13 @@ app.get('/weather/update', (req, res) => {
     const sql = "SELECT * FROM weather_observations WHERE id = $1"
     const values = [id] 
     client.query(sql, values, (err, result) => {
-    // client.query('SELECT * FROM weather_observations WHERE id = ', (err, result) => {
         if (err) {
             console.error('Error executing query', err);
         } else {
             console.log('Query result:', result.rows);
-            res.render('observation_form', {obs: result.rows, action: action})
+            res.render('observation_form', {obs: result.rows[0], action: action})
         }
     });
-    // res.render('observation_form', {obs: obs, action: action})
 })
 
 app.get('/weather/create', (req, res) => {
@@ -124,7 +122,7 @@ app.post('/weather/create', (req, res) => {
     console.log("observations: ", observations)
 
     const id = Date.now().valueOf()
-    // const condition = req.body.condition
+    const condition = req.body.condition
     // const obs = {id: id, condition: condition}
     // observations.push(obs)
 
