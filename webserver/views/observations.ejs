@@ -1,7 +1,27 @@
+<%- include('head.ejs'); %>
 <div>
-    <a href="/weather/create">new observation</a>
+    <a href="/weather/create" class="btn btn-primary">new observation</a>
     <!-- output list -->
+    <table class="table">
+        <thead>
+            <tr>
+                <td>id</td>
+                <td>weather condition</td>
+                <td>actions</td>
+            </tr>
+        </thead>
+        <tbody>
     <% obs.forEach(ob => { %>
-    <p><%= ob.id %>: <%= ob.condition %> <a href="/weather/update?id=<%= ob.id %>">edit</a> <a href="/weather/delete?id=<%= ob.id %>">delete</a> </p>
+        <tr>
+            <td><%= ob.id %></td>
+            <td><%= ob.condition %> </td>
+            <td> 
+                <a href="/weather/update?id=<%= ob.id %>" class="btn btn-primary btn-sm">edit</a> 
+                <a href="/weather/delete?id=<%= ob.id %>"class="btn btn-danger btn-sm">delete</a> 
+            </td>
+        </tr>
     <% }) %>
+        </tbody>
+    </table>
 </div>
+<%- include('foot.ejs'); %>
