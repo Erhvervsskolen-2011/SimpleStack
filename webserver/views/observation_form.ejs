@@ -1,5 +1,7 @@
+<%- include('head.ejs'); %>
+
 <style>
-    label {
+    /* label {
         width: 100px; 
         display: inline-block;
     }
@@ -18,18 +20,18 @@
         border:1px solid black;
         background-color: cornsilk;
         padding: 1em;
-    }
+    } */
 </style>
 
-<form method="post" action="">
+<form method="post" action="" class="container-sm p-3 bg-primary text-white">
 
-    <label for="id">id:</label>
-    <input type="text" name="id" id="id" value="<%=obs.id %>" readonly>
+    <label for="id" class="w-25">id:</label>
+    <input type="text" name="id" id="id" value="<%=obs.id %>"  class="w-50" readonly>
     <br />
-    <label for="condition">condition</label>
-    <input type="text" name="condition" id="condition" value="<%= obs.condition %>">
+    <label for="condition" class="w-25">condition</label>
+    <input type="text" name="condition" id="condition" value="<%= obs.condition %>"  class="w-50">
     <br />
-    <label>action</label>
+    <label  class="w-25">action</label>
 
     <!-- <% if (action == 'update') { %>
         <input type="submit" value="update">
@@ -37,21 +39,21 @@
         <input type="submit" value="create">
     <% } %> -->
 
-    <input type="submit" value="<%= action %>">
+    <input type="submit" value="<%= action %>"  class="w-50 btn btn-success">
 
 </form>
 
+<br>
+
+<div class="container-sm bg-info text-white">
 <% if (action == 'update') { %>
-    <div class="info">
         Denne forudfyldte formular er starten på Read i C<em>R</em>UD, 
         når du trykker på update, udføres Read i CR<em>U</em>D
-    </div>    
 <% } else if (action == 'create') { %>
-    <div class="info">
         Denne tomme formular er staten på Create i <em>C</em>RUD
-    </div> 
 <% } else if (action == 'delete') { %>
-    <div class="info">
         Denne forudfyldte formular er staten på Delete i CRU<em>D</em>
-    </div> 
 <% } %>
+</div>
+
+<%- include('foot.ejs'); %>

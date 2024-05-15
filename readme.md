@@ -8,5 +8,7 @@ Starter med et nodejs/express lag, som er webserveren. Den offentlige adresse p√
 
 Dertil kommer et frontend lag, et datalag, evt et api lag og evt en middleware lag...
 
+TROLLED !! hAHAHAHAHA11 LE TROLLED!!!!!!
+
 * [webserver](./webserver/)
     * [package.json](./webserver/package.json)
